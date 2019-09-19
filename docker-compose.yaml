@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  php:
+    build: .
+    volumes:
+      - ../site/:/var/www/site/
+    depends_on:
+      - postgres
+    restart: always
+
+  nginx:
+    image: nginx:1.16
+    ports:
+      - "8081:80"
+    volumes:
+      - ../site/:/var/www/site/
+      - ./cfg/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - php
+    restart: always
+
+  postgres:
+    image: postgres:12
+    volumes:
+      - ../site/:/var/www/site/
+      - db_data:/var/lib/postgresql/data/pgdata
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+
+volumes:
+  db_data:
+
