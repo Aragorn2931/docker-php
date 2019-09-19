@@ -37,6 +37,8 @@ RUN cd /var/www/site \
 
 #make php.ini file (dev-mod) from template
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
+#copy php-fpm conf
+COPY ./cfg/php/www.conf /usr/local/etc/php-fpm.d/
 
 #make user for solve permissions problem while editing file from host
 RUN adduser yng --home=/home/yng --uid=1000
